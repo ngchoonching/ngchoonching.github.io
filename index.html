@@ -1,37 +1,272 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>Exercise 1</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ng Choon Ching (Simon) — Lecturer, Raffles University</title>
+  <meta name="description" content="Ng Choon Ching (Simon) — Lecturer at Raffles University, Malaysia. Computer vision, machine learning and web development.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fbfaf7;
+      --surface: #ffffff;
+      --text: #1d1d1f;
+      --muted: #5f6368;
+      --line: #e6e2da;
+      --accent: #0f6e6e;
+      --accent-soft: #e3f1f0;
+      --radius: 14px;
+      --max: 860px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121414;
+        --surface: #1a1d1d;
+        --text: #ececec;
+        --muted: #a3a8a8;
+        --line: #2b3030;
+        --accent: #5cc8c0;
+        --accent-soft: #1d3332;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Nav */
+    nav {
+      position: sticky; top: 0; z-index: 10;
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      max-width: var(--max); margin: 0 auto; padding: 14px 20px;
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+    }
+    .brand { font-family: "Fraunces", serif; font-weight: 700; font-size: 18px; color: var(--text); }
+    .nav-links { display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; }
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: var(--accent); text-decoration: none; }
+
+    main { max-width: var(--max); margin: 0 auto; padding: 0 20px 80px; }
+
+    /* Hero */
+    .hero {
+      display: grid; grid-template-columns: 150px 1fr; gap: 32px;
+      align-items: center; padding: 64px 0 48px;
+    }
+    .avatar {
+      width: 150px; height: 150px; border-radius: 50%;
+      background: var(--accent-soft); border: 3px solid var(--surface);
+      box-shadow: 0 0 0 1px var(--line);
+      display: grid; place-items: center; overflow: hidden;
+      font-family: "Fraunces", serif; font-size: 52px; color: var(--accent);
+    }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    h1 {
+      font-family: "Fraunces", serif; font-weight: 700;
+      font-size: clamp(30px, 5vw, 42px); line-height: 1.15; margin-bottom: 6px;
+    }
+    .role { color: var(--muted); font-size: 17px; margin-bottom: 14px; }
+    .tagline { max-width: 560px; }
+    .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px; border-radius: 999px; font-size: 14px; font-weight: 500;
+      border: 1px solid var(--line); background: var(--surface); color: var(--text);
+    }
+    .btn:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .btn.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+    .btn.primary:hover { opacity: .9; color: var(--bg); }
+
+    /* Sections */
+    section { padding: 40px 0; border-top: 1px solid var(--line); scroll-margin-top: 60px; }
+    h2 {
+      font-family: "Fraunces", serif; font-weight: 500; font-size: 26px; margin-bottom: 20px;
+    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+    .card {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 18px 20px;
+    }
+    .card h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .card p { color: var(--muted); font-size: 14.5px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      background: var(--accent-soft); color: var(--accent);
+      padding: 5px 12px; border-radius: 999px; font-size: 13.5px; font-weight: 500;
+    }
+
+    /* Publications */
+    .pubs { list-style: none; display: grid; gap: 14px; }
+    .pubs li {
+      padding-left: 16px; border-left: 3px solid var(--accent-soft);
+    }
+    .pub-title { font-weight: 600; }
+    .pub-meta { color: var(--muted); font-size: 14.5px; }
+    .pub-meta em { color: var(--text); font-style: italic; }
+
+    footer {
+      text-align: center; color: var(--muted); font-size: 13px;
+      padding: 32px 20px; border-top: 1px solid var(--line);
+    }
+
+    @media (max-width: 600px) {
+      .hero { grid-template-columns: 1fr; text-align: center; padding-top: 40px; gap: 20px; }
+      .avatar { margin: 0 auto; width: 120px; height: 120px; font-size: 42px; }
+      .tagline { margin: 0 auto; }
+      .links { justify-content: center; }
+      .nav-links { display: none; }
+    }
+  </style>
 </head>
+<body>
 
-<body align="center">
-<h1>Myself</h1>
+  <nav>
+    <div class="nav-inner">
+      <a class="brand" href="#">Ng Choon Ching</a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#research">Research</a>
+        <a href="#teaching">Teaching</a>
+        <a href="#publications">Publications</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
 
-<img src="profile.jpg" height="150" />
+  <main>
+    <!-- HERO -->
+    <header class="hero">
+      <!-- To use a photo: upload profile.jpg to the repo, then replace "S" with <img src="profile.jpg" alt="Simon"> -->
+      <div class="avatar">S</div>
+      <div>
+        <h1>Ng Choon Ching <span style="font-weight:500">(Simon)</span></h1>
+        <p class="role">Lecturer · Raffles University, Malaysia</p>
+        <p class="tagline">
+          I teach and research computer vision, machine learning and web development,
+          with a focus on practical AI systems that solve real-world problems.
+        </p>
+        <div class="links">
+          <a class="btn primary" href="mailto:your.email@raffles.edu.my">✉ Email</a>
+          <a class="btn" href="https://github.com/ngchoonching">GitHub</a>
+          <a class="btn" href="#">Google Scholar</a>
+          <a class="btn" href="#">LinkedIn</a>
+        </div>
+      </div>
+    </header>
 
-<table border ="1" align="center">
-<tr>
-<td>Name:</td>
-<td>Dr. Simon Ng</td>
-</tr>
+    <!-- ABOUT -->
+    <section id="about">
+      <h2>About</h2>
+      <p>
+        I am a lecturer at Raffles University, where I teach programming, neural networks and
+        computer vision, supervise postgraduate research (PhD and Master's), and develop curriculum.
+        My research spans visual inspection, face analysis, self-supervised learning and AI for education.
+      </p>
+    </section>
 
-<tr>
-<td>Address:</td>
-<td>Raffles University</td>
-</tr>
-<tr>
-<td>Courses Taught:</td>
-<td>
-	<ol>
-	<li>BAI12153 Web Programming</li>
-	<li>BAI23124 Applied Computer Vision</li>
-	<li>BDS23114 Data Analytics</li>
-	</ol>
-</td>
-</tr>
-<tr>
-<td>Know me more:</td>
-<td><a href="https://raffles-university.edu.my/raffles-academics-management/">Raffles Portal</a></td>
-</tr>
-</table>
+    <!-- RESEARCH -->
+    <section id="research">
+      <h2>Research Interests</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Tiny Object Detection</h3>
+          <p>Detecting small objects reliably, benchmarked against state-of-the-art detectors.</p>
+        </div>
+        <div class="card">
+          <h3>Visual Defect Inspection</h3>
+          <p>Automated quality inspection for food and snack production lines.</p>
+        </div>
+        <div class="card">
+          <h3>Face Image Quality &amp; Emotion</h3>
+          <p>Face image quality assessment and contrastive self-supervised learning for facial emotion recognition.</p>
+        </div>
+        <div class="card">
+          <h3>AI in Education</h3>
+          <p>AI coaching and simulation systems that help students build professional skills.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEACHING -->
+    <section id="teaching">
+      <h2>Teaching</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Object Oriented Programming (C++)</h3>
+          <p>DIT13134 · Diploma in IT</p>
+        </div>
+        <div class="card">
+          <h3>Neural Network Basics</h3>
+          <p>Students build their own neural network from scratch, packaged with Docker.</p>
+        </div>
+        <div class="card">
+          <h3>Web &amp; Back-end Development</h3>
+          <p>Modern web programming and server-side application design.</p>
+        </div>
+        <div class="card">
+          <h3>Computer Vision &amp; Machine Learning</h3>
+          <p>From classical vision to deep learning models and deployment.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <h2>Tools &amp; Technologies</h2>
+      <div class="tags">
+        <span class="tag">Python</span>
+        <span class="tag">PyTorch</span>
+        <span class="tag">OpenCV</span>
+        <span class="tag">YOLO</span>
+        <span class="tag">C++</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">Docker</span>
+        <span class="tag">SQL</span>
+      </div>
+    </section>
+
+    <!-- PUBLICATIONS -->
+    <section id="publications">
+      <h2>Publications</h2>
+      <ul class="pubs">
+        <li>
+          <div class="pub-title">Contrastive Self-Supervised Learning vs. Supervised CNNs for Facial Emotion Recognition</div>
+          <div class="pub-meta">Ng Choon Ching, et al. · <em>ISPDS 2026</em> · <a href="#">PDF</a></div>
+        </li>
+        <!-- Copy the <li> block above to add more papers -->
+      </ul>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>
+        I welcome enquiries from prospective postgraduate students, collaborators and industry partners.<br>
+        📧 <a href="mailto:your.email@raffles.edu.my">your.email@raffles.edu.my</a><br>
+        📍 Raffles University, Johor Bahru, Malaysia
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Ng Choon Ching · Hosted on GitHub Pages
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
