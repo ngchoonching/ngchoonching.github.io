@@ -19,6 +19,7 @@
       --accent-soft: #e3f1f0;
       --radius: 14px;
       --max: 860px;
+      --fs: 1; /* text-size multiplier, set by the A−/A+ buttons */
     }
     @media (prefers-color-scheme: dark) {
       :root {
@@ -38,7 +39,7 @@
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
-      font-size: 15px;
+      font-size: calc(15px * var(--fs));
       -webkit-font-smoothing: antialiased;
     }
     p { max-width: 68ch; }
@@ -53,11 +54,11 @@
       border-bottom: 1px solid var(--line);
     }
     .nav-inner {
-      max-width: var(--max); margin: 0 auto; padding: 14px 20px;
+      max-width: 1000px; margin: 0 auto; padding: 14px 20px;
       display: flex; justify-content: space-between; align-items: center; gap: 16px;
     }
-    .brand { font-family: "Fraunces", serif; font-weight: 700; font-size: 18px; color: var(--text); }
-    .nav-links { display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; }
+    .brand { font-family: "Fraunces", serif; font-weight: 700; font-size: 18px; white-space: nowrap; color: var(--text); }
+    .nav-links { display: flex; gap: 16px; flex-wrap: wrap; font-size: 14px; }
     .nav-links a { color: var(--muted); }
     .nav-links a:hover { color: var(--accent); text-decoration: none; }
 
@@ -73,20 +74,20 @@
       background: var(--accent-soft); border: 3px solid var(--surface);
       box-shadow: 0 0 0 1px var(--line);
       display: grid; place-items: center; overflow: hidden;
-      font-family: "Fraunces", serif; font-size: 52px; color: var(--accent);
+      font-family: "Fraunces", serif; font-size: calc(52px * var(--fs)); color: var(--accent);
     }
     .avatar img { width: 100%; height: 100%; object-fit: cover; }
     h1 {
       font-family: "Fraunces", serif; font-weight: 700;
-      font-size: clamp(26px, 4vw, 34px); line-height: 1.2; margin-bottom: 4px;
+      font-size: calc(clamp(26px, 4vw, 34px) * var(--fs)); line-height: 1.2; margin-bottom: 4px;
     }
-    .role { color: var(--muted); font-size: 15.5px; margin-bottom: 8px; }
-    .address { color: var(--muted); font-size: 13.5px; line-height: 1.5; }
+    .role { color: var(--muted); font-size: calc(15.5px * var(--fs)); margin-bottom: 8px; }
+    .address { color: var(--muted); font-size: calc(13.5px * var(--fs)); line-height: 1.5; }
     .tagline { max-width: 560px; }
     .links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
     .btn {
       display: inline-flex; align-items: center; gap: 6px;
-      padding: 6px 13px; border-radius: 999px; font-size: 13.5px; font-weight: 500;
+      padding: 6px 13px; border-radius: 999px; font-size: calc(13.5px * var(--fs)); font-weight: 500;
       border: 1px solid var(--line); background: var(--surface); color: var(--text);
     }
     .btn:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
@@ -96,33 +97,33 @@
     /* Sections */
     section { padding: 32px 0; border-top: 1px solid var(--line); scroll-margin-top: 60px; }
     h2 {
-      font-family: "Fraunces", serif; font-weight: 500; font-size: 22px; margin-bottom: 14px;
+      font-family: "Fraunces", serif; font-weight: 500; font-size: calc(22px * var(--fs)); margin-bottom: 14px;
     }
-    .section-intro { color: var(--muted); font-size: 14px; margin: -6px 0 14px; }
+    .section-intro { color: var(--muted); font-size: calc(14px * var(--fs)); margin: -6px 0 14px; }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
     .card {
       background: var(--surface); border: 1px solid var(--line);
       border-radius: var(--radius); padding: 14px 16px;
     }
-    .card h3 { font-size: 14.5px; font-weight: 600; line-height: 1.4; margin-bottom: 3px; }
-    .card p { color: var(--muted); font-size: 13.5px; line-height: 1.55; }
+    .card h3 { font-size: calc(14.5px * var(--fs)); font-weight: 600; line-height: 1.4; margin-bottom: 3px; }
+    .card p { color: var(--muted); font-size: calc(13.5px * var(--fs)); line-height: 1.55; }
     .tags { display: flex; flex-wrap: wrap; gap: 6px; }
     .tag {
       background: var(--accent-soft); color: var(--accent);
-      padding: 4px 11px; border-radius: 999px; font-size: 12.5px; font-weight: 500;
+      padding: 4px 11px; border-radius: 999px; font-size: calc(12.5px * var(--fs)); font-weight: 500;
     }
 
     /* Students */
     .student-group {
-      font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+      font-size: calc(12px * var(--fs)); font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
       color: var(--muted); margin: 4px 0 10px;
     }
     .student-group + .grid { margin-bottom: 22px; }
     .student-card { display: flex; flex-direction: column; gap: 6px; }
-    .card .student-name { font-size: 13px; font-weight: 500; color: var(--text); }
-    .student-card details { font-size: 13px; }
+    .card .student-name { font-size: calc(13px * var(--fs)); font-weight: 500; color: var(--text); }
+    .student-card details { font-size: calc(13px * var(--fs)); }
     .student-card summary {
-      cursor: pointer; color: var(--accent); font-weight: 500; font-size: 12.5px;
+      cursor: pointer; color: var(--accent); font-weight: 500; font-size: calc(12.5px * var(--fs));
       list-style: none; width: fit-content;
     }
     .student-card summary::-webkit-details-marker { display: none; }
@@ -131,7 +132,7 @@
     .student-card details p { margin-top: 6px; }
     .student-card .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 4px; }
     .badge {
-      font-size: 11.5px; font-weight: 500; padding: 2px 9px; border-radius: 999px;
+      font-size: calc(11.5px * var(--fs)); font-weight: 500; padding: 2px 9px; border-radius: 999px;
       background: var(--accent-soft); color: var(--accent);
     }
     .badge.outline { background: transparent; border: 1px solid var(--line); color: var(--muted); }
@@ -145,12 +146,12 @@
       background: var(--accent-soft);
       border-radius: 999px;
       padding: 2px 9px;
-      font-size: 11.5px;
+      font-size: calc(11.5px * var(--fs));
       font-weight: 600;
       letter-spacing: .03em;
     }
     .achievement-card h3 { margin-top: 2px; }
-    .card .achievement-issuer { font-size: 12.5px; margin-top: auto; }
+    .card .achievement-issuer { font-size: calc(12.5px * var(--fs)); margin-top: auto; }
 
     /* Publications */
     .pubs { list-style: none; display: grid; gap: 12px; }
@@ -158,29 +159,42 @@
       padding-left: 14px; border-left: 3px solid var(--accent-soft);
     }
     .pub-year {
-      font-size: 12px; font-weight: 600; letter-spacing: .08em;
+      font-size: calc(12px * var(--fs)); font-weight: 600; letter-spacing: .08em;
       color: var(--muted); margin: 18px 0 8px;
     }
-    .pub-title { font-weight: 600; font-size: 14.5px; line-height: 1.45; }
-    .pub-meta { color: var(--muted); font-size: 13px; }
+    .pub-title { font-weight: 600; font-size: calc(14.5px * var(--fs)); line-height: 1.45; }
+    .pub-meta { color: var(--muted); font-size: calc(13px * var(--fs)); }
     .pub-meta em { color: var(--text); font-style: italic; }
-    .pub-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 3px; font-size: 13px; }
+    .pub-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 3px; font-size: calc(13px * var(--fs)); }
     .pub-author-me { font-weight: 700; color: var(--text); text-decoration: underline; text-decoration-color: var(--accent); }
-    .pub-status { color: var(--muted); font-size: 13px; }
-    .contact-lines { display: grid; gap: 4px; font-size: 14px; }
+    .pub-status { color: var(--muted); font-size: calc(13px * var(--fs)); }
+    .contact-lines { display: grid; gap: 4px; font-size: calc(14px * var(--fs)); }
 
     footer {
-      text-align: center; color: var(--muted); font-size: 13px;
+      text-align: center; color: var(--muted); font-size: calc(13px * var(--fs));
       padding: 32px 20px; border-top: 1px solid var(--line);
     }
 
     @media (max-width: 600px) {
       .hero { grid-template-columns: 1fr; text-align: center; padding-top: 40px; gap: 20px; }
-      .avatar { margin: 0 auto; width: 104px; height: 104px; font-size: 38px; }
+      .avatar { margin: 0 auto; width: 104px; height: 104px; font-size: calc(38px * var(--fs)); }
       .tagline, .hero p { margin-left: auto; margin-right: auto; }
       .links { justify-content: center; }
       .nav-links { display: none; }
     }
+    @media (max-width: 920px) { .nav-links { display: none; } }
+  
+    /* Text-size control */
+    .nav-right { display: flex; align-items: center; gap: 18px; }
+    .text-size { flex-shrink: 0; display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; background: var(--surface); }
+    .text-size button {
+      font: inherit; font-size: 13px; font-weight: 600; color: var(--muted);
+      background: none; border: 0; padding: 4px 10px; cursor: pointer; line-height: 1.4;
+    }
+    .text-size button + button { border-left: 1px solid var(--line); }
+    .text-size button:hover:not(:disabled) { color: var(--accent); background: var(--accent-soft); }
+    .text-size button:disabled { opacity: .35; cursor: default; }
+    .text-size button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
   </style>
 </head>
 <body>
@@ -188,6 +202,7 @@
   <nav>
     <div class="nav-inner">
       <a class="brand" href="#">Choon-Ching NG</a>
+      <div class="nav-right">
       <div class="nav-links">
         <a href="#about">About</a>
         <a href="#research">Research</a>
@@ -196,6 +211,12 @@
         <a href="#achievements">Achievements</a>
         <a href="#publications">Publications</a>
         <a href="#contact">Contact</a>
+      </div>
+      <div class="text-size" role="group" aria-label="Text size">
+        <button type="button" id="text-smaller" aria-label="Decrease text size" title="Smaller text">A−</button>
+        <button type="button" id="text-reset" aria-label="Reset text size" title="Default size">A</button>
+        <button type="button" id="text-larger" aria-label="Increase text size" title="Larger text">A+</button>
+      </div>
       </div>
     </div>
   </nav>
@@ -445,6 +466,35 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // ---------------- Text-size control ----------------
+    (function () {
+      const STEPS = [0.9, 1, 1.1, 1.2, 1.35, 1.5];
+      const DEFAULT = 1;
+      const KEY = "textSizeStep";
+      const smaller = document.getElementById("text-smaller");
+      const reset = document.getElementById("text-reset");
+      const larger = document.getElementById("text-larger");
+      let index = STEPS.indexOf(DEFAULT);
+
+      try {
+        const saved = Number(localStorage.getItem(KEY));
+        if (STEPS.includes(saved)) index = STEPS.indexOf(saved);
+      } catch (e) { /* storage unavailable: use default */ }
+
+      function apply() {
+        document.documentElement.style.setProperty("--fs", STEPS[index]);
+        smaller.disabled = index === 0;
+        larger.disabled = index === STEPS.length - 1;
+        reset.disabled = STEPS[index] === DEFAULT;
+        try { localStorage.setItem(KEY, STEPS[index]); } catch (e) {}
+      }
+
+      smaller.addEventListener("click", () => { if (index > 0) { index--; apply(); } });
+      larger.addEventListener("click", () => { if (index < STEPS.length - 1) { index++; apply(); } });
+      reset.addEventListener("click", () => { index = STEPS.indexOf(DEFAULT); apply(); });
+      apply();
+    })();
 
     // Publication sources, tried in order: ORCID → OpenReview → manual list below.
     // Public records are retrieved directly in the browser.
