@@ -37,9 +37,11 @@
       font-family: "Inter", system-ui, -apple-system, sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.65;
-      font-size: 16px;
+      line-height: 1.6;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
     }
+    p { max-width: 68ch; }
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
@@ -63,11 +65,11 @@
 
     /* Hero */
     .hero {
-      display: grid; grid-template-columns: 150px 1fr; gap: 32px;
-      align-items: center; padding: 64px 0 48px;
+      display: grid; grid-template-columns: 128px 1fr; gap: 28px;
+      align-items: center; padding: 48px 0 36px;
     }
     .avatar {
-      width: 150px; height: 150px; border-radius: 50%;
+      width: 128px; height: 128px; border-radius: 50%;
       background: var(--accent-soft); border: 3px solid var(--surface);
       box-shadow: 0 0 0 1px var(--line);
       display: grid; place-items: center; overflow: hidden;
@@ -76,14 +78,15 @@
     .avatar img { width: 100%; height: 100%; object-fit: cover; }
     h1 {
       font-family: "Fraunces", serif; font-weight: 700;
-      font-size: clamp(30px, 5vw, 42px); line-height: 1.15; margin-bottom: 6px;
+      font-size: clamp(26px, 4vw, 34px); line-height: 1.2; margin-bottom: 4px;
     }
-    .role { color: var(--muted); font-size: 17px; margin-bottom: 14px; }
+    .role { color: var(--muted); font-size: 15.5px; margin-bottom: 8px; }
+    .address { color: var(--muted); font-size: 13.5px; line-height: 1.5; }
     .tagline { max-width: 560px; }
-    .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
     .btn {
       display: inline-flex; align-items: center; gap: 6px;
-      padding: 8px 14px; border-radius: 999px; font-size: 14px; font-weight: 500;
+      padding: 6px 13px; border-radius: 999px; font-size: 13.5px; font-weight: 500;
       border: 1px solid var(--line); background: var(--surface); color: var(--text);
     }
     .btn:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
@@ -91,32 +94,44 @@
     .btn.primary:hover { opacity: .9; color: var(--bg); }
 
     /* Sections */
-    section { padding: 40px 0; border-top: 1px solid var(--line); scroll-margin-top: 60px; }
+    section { padding: 32px 0; border-top: 1px solid var(--line); scroll-margin-top: 60px; }
     h2 {
-      font-family: "Fraunces", serif; font-weight: 500; font-size: 26px; margin-bottom: 20px;
+      font-family: "Fraunces", serif; font-weight: 500; font-size: 22px; margin-bottom: 14px;
     }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+    .section-intro { color: var(--muted); font-size: 14px; margin: -6px 0 14px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
     .card {
       background: var(--surface); border: 1px solid var(--line);
-      border-radius: var(--radius); padding: 18px 20px;
+      border-radius: var(--radius); padding: 14px 16px;
     }
-    .card h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
-    .card p { color: var(--muted); font-size: 14.5px; }
-    .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .card h3 { font-size: 14.5px; font-weight: 600; line-height: 1.4; margin-bottom: 3px; }
+    .card p { color: var(--muted); font-size: 13.5px; line-height: 1.55; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
     .tag {
       background: var(--accent-soft); color: var(--accent);
-      padding: 5px 12px; border-radius: 999px; font-size: 13.5px; font-weight: 500;
+      padding: 4px 11px; border-radius: 999px; font-size: 12.5px; font-weight: 500;
     }
 
     /* Students */
-    .student-group { font-family: "Fraunces", serif; font-weight: 500; font-size: 21px; margin: 8px 0 12px; }
-    .student-group + .grid { margin-bottom: 28px; }
-    .student-card { display: flex; flex-direction: column; gap: 8px; }
-    .student-card h3 { line-height: 1.4; }
-    .student-name { font-size: 14.5px; font-weight: 500; color: var(--text); }
+    .student-group {
+      font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--muted); margin: 4px 0 10px;
+    }
+    .student-group + .grid { margin-bottom: 22px; }
+    .student-card { display: flex; flex-direction: column; gap: 6px; }
+    .card .student-name { font-size: 13px; font-weight: 500; color: var(--text); }
+    .student-card details { font-size: 13px; }
+    .student-card summary {
+      cursor: pointer; color: var(--accent); font-weight: 500; font-size: 12.5px;
+      list-style: none; width: fit-content;
+    }
+    .student-card summary::-webkit-details-marker { display: none; }
+    .student-card summary::after { content: " ›"; }
+    .student-card details[open] summary::after { content: " ‹"; }
+    .student-card details p { margin-top: 6px; }
     .student-card .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 4px; }
     .badge {
-      font-size: 12.5px; font-weight: 500; padding: 3px 10px; border-radius: 999px;
+      font-size: 11.5px; font-weight: 500; padding: 2px 9px; border-radius: 999px;
       background: var(--accent-soft); color: var(--accent);
     }
     .badge.outline { background: transparent; border: 1px solid var(--line); color: var(--muted); }
@@ -129,26 +144,30 @@
       color: var(--accent);
       background: var(--accent-soft);
       border-radius: 999px;
-      padding: 3px 10px;
-      font-size: 12.5px;
+      padding: 2px 9px;
+      font-size: 11.5px;
       font-weight: 600;
       letter-spacing: .03em;
     }
     .achievement-card h3 { margin-top: 2px; }
-    .achievement-issuer { color: var(--muted); font-size: 13.5px; margin-top: auto; }
+    .card .achievement-issuer { font-size: 12.5px; margin-top: auto; }
 
     /* Publications */
-    .pubs { list-style: none; display: grid; gap: 18px; }
+    .pubs { list-style: none; display: grid; gap: 12px; }
     .pubs li {
-      padding-left: 16px; border-left: 3px solid var(--accent-soft);
+      padding-left: 14px; border-left: 3px solid var(--accent-soft);
     }
-    .pub-year { font-family: "Fraunces", serif; font-size: 21px; margin: 24px 0 10px; }
-    .pub-title { font-weight: 600; }
-    .pub-meta { color: var(--muted); font-size: 14.5px; }
+    .pub-year {
+      font-size: 12px; font-weight: 600; letter-spacing: .08em;
+      color: var(--muted); margin: 18px 0 8px;
+    }
+    .pub-title { font-weight: 600; font-size: 14.5px; line-height: 1.45; }
+    .pub-meta { color: var(--muted); font-size: 13px; }
     .pub-meta em { color: var(--text); font-style: italic; }
-    .pub-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 5px; font-size: 14px; }
+    .pub-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 3px; font-size: 13px; }
     .pub-author-me { font-weight: 700; color: var(--text); text-decoration: underline; text-decoration-color: var(--accent); }
-    .pub-status { color: var(--muted); font-size: 14px; }
+    .pub-status { color: var(--muted); font-size: 13px; }
+    .contact-lines { display: grid; gap: 4px; font-size: 14px; }
 
     footer {
       text-align: center; color: var(--muted); font-size: 13px;
@@ -157,8 +176,8 @@
 
     @media (max-width: 600px) {
       .hero { grid-template-columns: 1fr; text-align: center; padding-top: 40px; gap: 20px; }
-      .avatar { margin: 0 auto; width: 120px; height: 120px; font-size: 42px; }
-      .tagline { margin: 0 auto; }
+      .avatar { margin: 0 auto; width: 104px; height: 104px; font-size: 38px; }
+      .tagline, .hero p { margin-left: auto; margin-right: auto; }
       .links { justify-content: center; }
       .nav-links { display: none; }
     }
@@ -189,13 +208,9 @@
       <div>
         <h1>Choon-Ching NG (aka Simon)</h1>
         <p class="role">Senior Lecturer · Raffles University, Malaysia</p>
-        <p>
-          University Address: G-05, Medini 7, Jalan Medini Sentral 5,
-          Bandar Medini Iskandar Malaysia,
-          79250 Iskandar Puteri, Johor, Malaysia.
-        </p>
-        <p>
-          (Welcome Master and PhD Students)
+        <p class="address">
+          G-05, Medini 7, Jalan Medini Sentral 5, Bandar Medini Iskandar Malaysia,
+          79250 Iskandar Puteri, Johor
         </p>
         <div class="links">
           <a class="btn primary" href="mailto:ngchoonching@raffles-university.edu.my">ngchoonching@raffles-university.edu.my</a>
@@ -212,10 +227,9 @@
     <section id="about">
       <h2>About</h2>
       <p>
-        I am a senior lecturer at Raffles University, where I teach programming, neural networks and
-        computer vision, supervise postgraduate research (PhD and Master's), and develop curriculum. 
-        I am also head of Data and AI Center of Excellence (DAICoE) and the research spans visual inspection, 
-        face sensing application, self-supervised learning and AI for education.
+        Senior lecturer at Raffles University and head of the Data and AI Center of Excellence (DAICoE).
+        I teach programming, neural networks and computer vision, and supervise PhD and Master's research
+        in visual inspection, face sensing, self-supervised learning and AI for education.
       </p>
     </section>
 
@@ -225,33 +239,24 @@
       <div class="grid">
         <div class="card">
           <h3>Video Content Analysis</h3>
-          <p>An AI-powered application for automated video analysis, object detection, activity recognition, 
-            and intelligent event understanding.
-          </p>
+          <p>Object detection, activity recognition and event understanding in video.</p>
         </div>
         <div class="card">
-          <h3>Human-centric Vision and Biometrics</h3>
-          <p>An intelligent AI application for human perception, biometric recognition, behavioural analysis, 
-            and identity verification.
-          </p>
+          <h3>Human-centric Vision &amp; Biometrics</h3>
+          <p>Face and biometric recognition, behaviour analysis, identity verification.</p>
         </div>
         <div class="card">
           <h3>Generative AI</h3>
-          <p>An intelligent generative AI application for facial image analysis, enhancement, 
-            and 3D realistic face generation.</p>
-        </div>       
+          <p>Facial image enhancement and realistic 3D face generation.</p>
+        </div>
         <div class="card">
           <h3>Medical Imaging</h3>
-          <p>An AI-powered application for medical image analysis, abnormality detection, and 
-            intelligent diagnostic support.
-          </p>
-        </div> 
+          <p>Abnormality detection and diagnostic support from medical images.</p>
+        </div>
         <div class="card">
-          <h3>Efficient and Scalable Vision</h3>
-          <p>An efficient and scalable vision AI solution for real-time visual intelligence, resource-efficient 
-            inference, and deployment across edge and cloud environments.
-          </p>
-        </div>        
+          <h3>Efficient &amp; Scalable Vision</h3>
+          <p>Real-time, resource-efficient models for edge and cloud deployment.</p>
+        </div>
       </div>
     </section>
 
@@ -265,11 +270,11 @@
         </div>
         <div class="card">
           <h3>Neural Network Basics</h3>
-          <p>Students build their own neural network from scratch, packaged with Docker.</p>
+          <p>Build a neural network from scratch, packaged with Docker.</p>
         </div>
         <div class="card">
           <h3>Web &amp; Back-end Development</h3>
-          <p>Modern web programming and server-side application design.</p>
+          <p>Web programming and server-side application design.</p>
         </div>
         <div class="card">
           <h3>Computer Vision &amp; Machine Learning</h3>
@@ -277,8 +282,7 @@
         </div>
         <div class="card">
           <h3>Data Analytics</h3>
-          <p>An AI-driven application for data exploration, predictive analytics, 
-            pattern discovery, and intelligent decision support.</p>
+          <p>Data exploration, predictive analytics and decision support.</p>
         </div>
       </div>
     </section>
@@ -287,6 +291,7 @@
     <!--
       To add a student: copy one <div class="card student-card">...</div> block
       into the PhD or Master's grid and edit the text.
+      Keep the first <p> to one short sentence; put the full abstract inside <details>.
       Badges: role (Main supervisor / Co-supervisor), start year, status.
       To remove a group entirely, delete its <h3> and the <div class="grid"> under it.
     -->
@@ -298,31 +303,37 @@
         <div class="card student-card">
           <h3>AI-Based Counselling Skills Simulator and Coach</h3>
           <p class="student-name">Jayson Lew Chi Kheong</p>
-          <p>This research proposes a culturally grounded AI-powered counselling simulation 
-            and assessment framework to enhance practical counsellor education in Malaysia 
-            through realistic client interactions that incorporate local languages, cultural values, 
-            emotional complexity and diverse client behaviours. The framework integrates automated 
-            counselling micro-skill recognition, personalised formative feedback and human 
-            supervisor oversight, with its effectiveness evaluated through expert assessments 
-            and comparisons of students' counselling competencies, self-efficacy and transfer 
-            of skills to real-world practice.
-          </p>
+          <p>A culturally grounded AI client simulator that helps Malaysian counselling students practise and get feedback.</p>
+          <details>
+            <summary>Read more</summary>
+            <p>This research proposes a culturally grounded AI-powered counselling simulation
+              and assessment framework to enhance practical counsellor education in Malaysia
+              through realistic client interactions that incorporate local languages, cultural values,
+              emotional complexity and diverse client behaviours. The framework integrates automated
+              counselling micro-skill recognition, personalised formative feedback and human
+              supervisor oversight, with its effectiveness evaluated through expert assessments
+              and comparisons of students' counselling competencies, self-efficacy and transfer
+              of skills to real-world practice.</p>
+          </details>
           <div class="badges">
-            <span class="badge">Co supervisor</span>
+            <span class="badge">Co-supervisor</span>
             <span class="badge outline">Since 2026</span>
           </div>
         </div>
         <div class="card student-card">
           <h3>Anomaly Detection for Industry Use Case</h3>
           <p class="student-name">Yian Xing Jian</p>
-          <p>This research proposes an AI-powered anomaly detection framework for industrial 
-            applications, leveraging machine learning and deep learning techniques to identify 
-            unusual patterns, defects and abnormal operating conditions from industrial sensor 
-            data, images or video streams. The framework aims to improve operational efficiency, 
-            predictive maintenance and quality control by providing accurate, real-time anomaly 
-            detection, early warning capabilities and interpretable insights to support industrial 
-            decision-making.
-          </p>
+          <p>Real-time detection of defects and abnormal conditions from industrial sensor, image and video data.</p>
+          <details>
+            <summary>Read more</summary>
+            <p>This research proposes an AI-powered anomaly detection framework for industrial
+              applications, leveraging machine learning and deep learning techniques to identify
+              unusual patterns, defects and abnormal operating conditions from industrial sensor
+              data, images or video streams. The framework aims to improve operational efficiency,
+              predictive maintenance and quality control by providing accurate, real-time anomaly
+              detection, early warning capabilities and interpretable insights to support industrial
+              decision-making.</p>
+          </details>
           <div class="badges">
             <span class="badge">Co-supervisor</span>
             <span class="badge outline">Since 2026</span>
@@ -335,14 +346,17 @@
         <div class="card student-card">
           <h3>Face Quality Assessment using Self Supervised Learning</h3>
           <p class="student-name">Mohamad Hatim Bin Mohd Shahfri</p>
-          <p>This research proposes a self-supervised learning framework for Face Image 
-            Quality Assessment (FIQA), aiming to learn meaningful facial image quality 
-            representations without relying heavily on expensive human-annotated quality 
-            labels. The framework seeks to improve the accuracy, generalisation and 
-            robustness of face quality prediction across different imaging conditions 
-            and face recognition systems, particularly in resource-constrained and 
-            real-world deployment scenarios.
-          </p>
+          <p>Learning face image quality without costly human labels, for robust real-world face recognition.</p>
+          <details>
+            <summary>Read more</summary>
+            <p>This research proposes a self-supervised learning framework for Face Image
+              Quality Assessment (FIQA), aiming to learn meaningful facial image quality
+              representations without relying heavily on expensive human-annotated quality
+              labels. The framework seeks to improve the accuracy, generalisation and
+              robustness of face quality prediction across different imaging conditions
+              and face recognition systems, particularly in resource-constrained and
+              real-world deployment scenarios.</p>
+          </details>
           <div class="badges">
             <span class="badge">Main supervisor</span>
             <span class="badge outline">Since 2026</span>
@@ -351,8 +365,7 @@
       </div>
 
       <p class="pub-status">
-        Interested in joining? Prospective Master's and PhD students are welcome to
-        <a href="mailto:ngchoonching@raffles-university.edu.my">get in touch</a>.
+        Interested in joining? <a href="mailto:ngchoonching@raffles-university.edu.my">Get in touch</a>.
       </p>
     </section>
 
@@ -374,9 +387,6 @@
     <!-- ACHIEVEMENTS -->
     <section id="achievements">
       <h2>Achievements</h2>
-      <p class="pub-status">
-        Selected academic, research, professional and service achievements.
-      </p>
 
       <div class="grid">
         <!--
@@ -388,10 +398,7 @@
         <div class="card achievement-card">
           <span class="achievement-year">2026</span>
           <h3>Industry Collaboration - Raffles University x Pensees System Pte Ltd.</h3>
-          <p>The collaboration provides opportunities for students to work on real-world AI 
-            development tasks, gain hands-on experience with AI tools and technologies, and 
-            engage with industry-related challenges through internships and Final Year Projects (FYP).
-          </p>
+          <p>Students work on real-world AI tasks through internships and Final Year Projects.</p>
           <p class="achievement-issuer">Pensees System Pte Ltd.</p>
           <!-- Optional supporting link:
           <p><a href="https://example.com" target="_blank" rel="noopener noreferrer">More details ↗</a></p>
@@ -401,8 +408,8 @@
         <div class="card achievement-card">
           <span class="achievement-year">2026</span>
           <h3>UNU Global Youth AI Future Innovation Competition 2026</h3>
-          <p>Move My Way was recognised among the Top 15 finalists worldwide and invited to pitch at the  
-            international Grand Final in Macau SAR, China (26 November 2026).</p>
+          <p>Move My Way developed by Dhiviyan A/L Sivanathan and Dr Ng Choon Ching named a Top 15 finalist worldwide; pitching 
+            at the Grand Final in Macau. <a href="https://movemyway.me/">https://movemyway.me/</a></p>
           <p class="achievement-issuer">UNU Macau</p>
         </div>
       </div>
@@ -424,11 +431,11 @@
     <!-- CONTACT -->
     <section id="contact">
       <h2>Contact</h2>
-      <p>
-        I welcome enquiries from prospective postgraduate students, collaborators and industry partners.<br>
-        📧 <a href="mailto:ngchoonching@raffles-university.edu.my">ngchoonching@raffles-university.edu.my</a><br>
-        📍 Raffles University, Johor Bahru, Malaysia
-      </p>
+      <p class="section-intro">Open to prospective students, collaborators and industry partners.</p>
+      <div class="contact-lines">
+        <span>📧 <a href="mailto:ngchoonching@raffles-university.edu.my">ngchoonching@raffles-university.edu.my</a></span>
+        <span>📍 Raffles University, Johor Bahru, Malaysia</span>
+      </div>
     </section>
   </main>
 
