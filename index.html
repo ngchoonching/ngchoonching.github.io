@@ -109,13 +109,17 @@
     }
 
     /* Publications */
-    .pubs { list-style: none; display: grid; gap: 14px; }
+    .pubs { list-style: none; display: grid; gap: 18px; }
     .pubs li {
       padding-left: 16px; border-left: 3px solid var(--accent-soft);
     }
+    .pub-year { font-family: "Fraunces", serif; font-size: 21px; margin: 24px 0 10px; }
     .pub-title { font-weight: 600; }
     .pub-meta { color: var(--muted); font-size: 14.5px; }
     .pub-meta em { color: var(--text); font-style: italic; }
+    .pub-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 5px; font-size: 14px; }
+    .pub-author-me { font-weight: 700; color: var(--text); text-decoration: underline; text-decoration-color: var(--accent); }
+    .pub-status { color: var(--muted); font-size: 14px; }
 
     footer {
       text-align: center; color: var(--muted); font-size: 13px;
@@ -152,12 +156,15 @@
       <!-- To use a photo: upload profile.jpg to the repo, then replace "S" with <img src="profile.jpg" alt="Simon"> -->
       <div class="avatar"><img src="profile.jpg" alt="Simon"></div>
       <div>
-        <h1>Choon-Ching NG (aka Simon)<span style="font-weight:500">(Simon)</span></h1>
-        <p class="role">Senior Lecturer · Raffles University, Malaysia.</p>
+        <h1>Choon-Ching NG (aka Simon)</h1>
+        <p class="role">Senior Lecturer · Raffles University, Malaysia</p>
         <p>
-          G-05, Medini 7, Jalan Medini Sentral 5,
+          University Address: G-05, Medini 7, Jalan Medini Sentral 5,
           Bandar Medini Iskandar Malaysia,
-          79250 Iskandar Puteri, Johor, Malaysia
+          79250 Iskandar Puteri, Johor, Malaysia.
+        </p>
+        <p>
+          (Welcome Master and PhD Students)
         </p>
         <div class="links">
           <a class="btn primary" href="mailto:ngchoonching@raffles-university.edu.my">ngchoonching@raffles-university.edu.my</a>
@@ -165,7 +172,7 @@
           <!--- <a class="btn" href="https://dblp.org/pid/96/7293">DBLP</a>
           <a class="btn" href="https://scholar.google.com/citations?hl=en&user=2x-hLgMAAAAJ">Google Scholar</a>
           <a class="btn" href="https://www.semanticscholar.org/author/Choon-Ching-Ng/48178520">Semantic Scholar</a>
-          <a class="btn" href="https://www.linkedin.com/in/choon-ching-ng/">LinkedIn</a> --!>
+          <a class="btn" href="https://www.linkedin.com/in/choon-ching-ng/">LinkedIn</a> -->
         </div>
       </div>
     </header>
@@ -174,9 +181,10 @@
     <section id="about">
       <h2>About</h2>
       <p>
-        I am a lecturer at Raffles University, where I teach programming, neural networks and
-        computer vision, supervise postgraduate research (PhD and Master's), and develop curriculum.
-        My research spans visual inspection, face analysis, self-supervised learning and AI for education.
+        I am a senior lecturer at Raffles University, where I teach programming, neural networks and
+        computer vision, supervise postgraduate research (PhD and Master's), and develop curriculum. 
+        I am also head of Data and AI Center of Excellence (DAICoE) and the research spans visual inspection, 
+        face sensing application, self-supervised learning and AI for education.
       </p>
     </section>
 
@@ -185,21 +193,34 @@
       <h2>Research Interests</h2>
       <div class="grid">
         <div class="card">
-          <h3>Tiny Object Detection</h3>
-          <p>Detecting small objects reliably, benchmarked against state-of-the-art detectors.</p>
+          <h3>Video Content Analysis</h3>
+          <p>An AI-powered application for automated video analysis, object detection, activity recognition, 
+            and intelligent event understanding.
+          </p>
         </div>
         <div class="card">
-          <h3>Visual Defect Inspection</h3>
-          <p>Automated quality inspection for food and snack production lines.</p>
+          <h3>Human-centric Vision and Biometrics</h3>
+          <p>An intelligent AI application for human perception, biometric recognition, behavioural analysis, 
+            and identity verification.
+          </p>
         </div>
         <div class="card">
-          <h3>Face Image Quality &amp; Emotion</h3>
-          <p>Face image quality assessment and contrastive self-supervised learning for facial emotion recognition.</p>
-        </div>
+          <h3>Generative AI</h3>
+          <p>An intelligent generative AI application for facial image analysis, enhancement, 
+            and 3D realistic face generation.</p>
+        </div>       
         <div class="card">
-          <h3>AI in Education</h3>
-          <p>AI coaching and simulation systems that help students build professional skills.</p>
-        </div>
+          <h3>Medical Imaging</h3>
+          <p>An AI-powered application for medical image analysis, abnormality detection, and 
+            intelligent diagnostic support.
+          </p>
+        </div> 
+        <div class="card">
+          <h3>Efficient and Scalable Vision</h3>
+          <p>An efficient and scalable vision AI solution for real-time visual intelligence, resource-efficient 
+            inference, and deployment across edge and cloud environments.
+          </p>
+        </div>        
       </div>
     </section>
 
@@ -223,6 +244,11 @@
           <h3>Computer Vision &amp; Machine Learning</h3>
           <p>From classical vision to deep learning models and deployment.</p>
         </div>
+        <div class="card">
+          <h3>Data Analytics</h3>
+          <p>An AI-driven application for data exploration, predictive analytics, 
+            pattern discovery, and intelligent decision support.</p>
+        </div>
       </div>
     </section>
 
@@ -244,13 +270,15 @@
     <!-- PUBLICATIONS -->
     <section id="publications">
       <h2>Publications</h2>
-      <ul class="pubs">
-        <li>
-          <div class="pub-title">Contrastive Self-Supervised Learning vs. Supervised CNNs for Facial Emotion Recognition</div>
-          <div class="pub-meta">Ng Choon Ching, et al. · <em>ISPDS 2026</em> · <a href="#">PDF</a></div>
-        </li>
-        <!-- Copy the <li> block above to add more papers -->
-      </ul>
+      <p id="pub-status" class="pub-status" aria-live="polite">Loading publications from OpenReview...</p>
+      <div id="pub-list"></div>
+      <p id="pub-source" class="pub-status" style="margin-top:16px">
+        Publication records are retrieved automatically from OpenReview. Please verify venue and publication status against the official record.
+      </p>
+      <noscript>
+        <p class="pub-status">JavaScript is disabled. Please see my
+          <a href="https://orcid.org/0000-0002-9657-1179">ORCID profile</a> for publications.</p>
+      </noscript>
     </section>
 
     <!-- CONTACT -->
@@ -258,7 +286,7 @@
       <h2>Contact</h2>
       <p>
         I welcome enquiries from prospective postgraduate students, collaborators and industry partners.<br>
-        📧 <a href="mailto:your.email@raffles.edu.my">your.email@raffles.edu.my</a><br>
+        📧 <a href="mailto:ngchoonching@raffles-university.edu.my">ngchoonching@raffles-university.edu.my</a><br>
         📍 Raffles University, Johor Bahru, Malaysia
       </p>
     </section>
@@ -270,6 +298,211 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // OpenReview author profile. This page retrieves public records directly in the browser.
+    const OPENREVIEW_AUTHOR_ID = "~Choon-Ching_Ng2";
+    const OPENREVIEW_API = "https://api2.openreview.net/notes";
+    const FETCH_TIMEOUT_MS = 8000; // give up on OpenReview after 8 seconds
+
+    // ------------------------------------------------------------------
+    // BACKUP LIST — shown when OpenReview fails, times out or returns nothing.
+    // Add one object per publication. Only "title" is required.
+    // ------------------------------------------------------------------
+    const MANUAL_PUBLICATIONS = [
+      // {
+      //   title: "Your paper title",
+      //   authors: ["Choon-Ching Ng", "Co-author Name"],
+      //   venue: "Conference or Journal Name",
+      //   year: 2026,
+      //   url: "https://doi.org/xx.xxxx/xxxxx",   // optional
+      //   linkLabel: "DOI"                         // optional, defaults to "Link"
+      // },
+    ];
+
+    function fieldValue(value) {
+      if (value && typeof value === "object" && "value" in value) return value.value;
+      return value;
+    }
+
+    function noteField(note, name) {
+      return fieldValue(note?.content?.[name]);
+    }
+
+    function cleanText(value) {
+      if (Array.isArray(value)) return value.map(cleanText).filter(Boolean).join(", ");
+      if (value === null || value === undefined) return "";
+      return String(value).trim();
+    }
+
+    function toAuthorList(authors) {
+      return Array.isArray(authors) ? authors : (authors ? [authors] : []);
+    }
+
+    function getYear(note) {
+      const dateValue = note.pdate || note.cdate || note.tmdate;
+      if (dateValue) return new Date(Number(dateValue)).getFullYear();
+      const venue = cleanText(noteField(note, "venue"));
+      const match = venue.match(/20\d{2}/);
+      return match ? Number(match[0]) : "Year unavailable";
+    }
+
+    function getPaperUrl(note) {
+      const pdf = cleanText(noteField(note, "pdf"));
+      if (pdf) {
+        if (/^https?:\/\//i.test(pdf)) return pdf;
+        if (pdf.startsWith("/")) return "https://openreview.net" + pdf;
+      }
+      const id = note.forum || note.id;
+      return id ? "https://openreview.net/forum?id=" + encodeURIComponent(id) : "";
+    }
+
+    function isSimon(author) {
+      const normalised = cleanText(author).toLowerCase().replace(/[^a-z]/g, "");
+      return normalised.includes("choonchingng") || normalised.includes("ngchoonching");
+    }
+
+    function escapeHtml(value) {
+      return cleanText(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      })[char]);
+    }
+
+    function safeUrl(url) {
+      const text = cleanText(url);
+      return /^https?:\/\//i.test(text) ? text : "";
+    }
+
+    // Convert OpenReview notes into the common publication shape.
+    function fromOpenReview(notes) {
+      // Keep one record per forum to avoid listing revisions multiple times.
+      const unique = new Map();
+      notes.forEach(note => {
+        const key = note.forum || note.id;
+        if (key && !unique.has(key)) unique.set(key, note);
+      });
+
+      return [...unique.values()].map(note => ({
+        title: cleanText(noteField(note, "title")) || "Untitled record",
+        authors: toAuthorList(noteField(note, "authors")),
+        venue: cleanText(noteField(note, "venue")) ||
+               cleanText(noteField(note, "venueid")) ||
+               "Venue not specified",
+        year: getYear(note),
+        url: getPaperUrl(note),
+        linkLabel: cleanText(noteField(note, "pdf")) ? "PDF" : "OpenReview"
+      }));
+    }
+
+    // Convert the manual list into the same shape.
+    function fromManual(list) {
+      return list
+        .filter(pub => pub && cleanText(pub.title))
+        .map(pub => ({
+          title: cleanText(pub.title),
+          authors: toAuthorList(pub.authors),
+          venue: cleanText(pub.venue) || "Venue not specified",
+          year: pub.year || "Year unavailable",
+          url: safeUrl(pub.url),
+          linkLabel: cleanText(pub.linkLabel) || "Link"
+        }));
+    }
+
+    function renderPublications(publications) {
+      const container = document.getElementById("pub-list");
+
+      publications.sort((a, b) => {
+        const ay = Number(a.year) || 0, by = Number(b.year) || 0;
+        return by - ay || a.title.localeCompare(b.title);
+      });
+
+      const grouped = new Map();
+      publications.forEach(pub => {
+        const year = String(pub.year);
+        if (!grouped.has(year)) grouped.set(year, []);
+        grouped.get(year).push(pub);
+      });
+
+      container.innerHTML = [...grouped.entries()].map(([year, items]) => `
+        <h3 class="pub-year">${escapeHtml(year)}</h3>
+        <ul class="pubs">
+          ${items.map(pub => {
+            const authorsHtml = pub.authors.map(author =>
+              isSimon(author)
+                ? `<span class="pub-author-me">${escapeHtml(author)}</span>`
+                : escapeHtml(author)
+            ).join(", ");
+            const linkHtml = pub.url
+              ? `<a href="${escapeHtml(pub.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(pub.linkLabel)}</a>`
+              : "";
+            return `<li>
+              <div class="pub-title">${escapeHtml(pub.title)}</div>
+              <div class="pub-meta">${authorsHtml || "Author information unavailable"} · <em>${escapeHtml(pub.venue)}</em></div>
+              ${linkHtml ? `<div class="pub-links">${linkHtml}</div>` : ""}
+            </li>`;
+          }).join("")}
+        </ul>
+      `).join("");
+    }
+
+    // Fallback: show the manual list instead of the OpenReview records.
+    function showManualPublications(reason) {
+      const status = document.getElementById("pub-status");
+      const source = document.getElementById("pub-source");
+      const manual = fromManual(MANUAL_PUBLICATIONS);
+
+      if (reason) console.warn("Using manual publication list:", reason);
+
+      if (!manual.length) {
+        status.innerHTML = 'Publications are temporarily unavailable. Please see my ' +
+          '<a href="https://orcid.org/0000-0002-9657-1179" target="_blank" rel="noopener noreferrer">ORCID profile</a>.';
+        source.style.display = "none";
+        return;
+      }
+
+      status.textContent = "";
+      renderPublications(manual);
+      source.textContent = "Selected publications (maintained manually).";
+    }
+
+    async function loadOpenReviewPublications() {
+      const status = document.getElementById("pub-status");
+      const params = new URLSearchParams({
+        "content.authorids": OPENREVIEW_AUTHOR_ID,
+        limit: "1000",
+        sort: "cdate:desc"
+      });
+
+      // Abort the request if OpenReview is too slow.
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+
+      try {
+        const response = await fetch(`${OPENREVIEW_API}?${params.toString()}`, {
+          headers: { "Accept": "application/json" },
+          signal: controller.signal
+        });
+        if (!response.ok) throw new Error(`OpenReview returned HTTP ${response.status}`);
+        const data = await response.json();
+        const publications = fromOpenReview(data.notes || []);
+
+        if (!publications.length) {
+          showManualPublications("OpenReview returned no records");
+          return;
+        }
+
+        status.textContent = `${publications.length} OpenReview record(s) retrieved.`;
+        renderPublications(publications);
+      } catch (error) {
+        const reason = error.name === "AbortError"
+          ? `OpenReview did not respond within ${FETCH_TIMEOUT_MS / 1000}s`
+          : error;
+        showManualPublications(reason);
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    loadOpenReviewPublications();
   </script>
 </body>
 </html>
