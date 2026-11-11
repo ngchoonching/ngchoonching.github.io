@@ -270,10 +270,9 @@
     <!-- PUBLICATIONS -->
     <section id="publications">
       <h2>Publications</h2>
-      <p id="pub-status" class="pub-status" aria-live="polite">Loading publications from OpenReview...</p>
+      <p id="pub-status" class="pub-status" aria-live="polite">Loading publications...</p>
       <div id="pub-list"></div>
       <p id="pub-source" class="pub-status" style="margin-top:16px">
-        Publication records are retrieved automatically from OpenReview. Please verify venue and publication status against the official record.
       </p>
       <noscript>
         <p class="pub-status">JavaScript is disabled. Please see my
@@ -299,13 +298,16 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // OpenReview author profile. This page retrieves public records directly in the browser.
+    // Publication sources, tried in order: ORCID → OpenReview → manual list below.
+    // Public records are retrieved directly in the browser.
+    const ORCID_ID = "0000-0002-9657-1179";
+    const ORCID_API = "https://pub.orcid.org/v3.0";
     const OPENREVIEW_AUTHOR_ID = "~Choon-Ching_Ng2";
     const OPENREVIEW_API = "https://api2.openreview.net/notes";
-    const FETCH_TIMEOUT_MS = 8000; // give up on OpenReview after 8 seconds
+    const FETCH_TIMEOUT_MS = 8000; // give up on a source after 8 seconds
 
     // ------------------------------------------------------------------
-    // BACKUP LIST — shown when OpenReview fails, times out or returns nothing.
+    // BACKUP LIST — shown when both ORCID and OpenReview fail, time out or return nothing.
     // Add one object per publication. Only "title" is required.
     // ------------------------------------------------------------------
     const MANUAL_PUBLICATIONS = [
@@ -393,6 +395,111 @@
       }));
     }
 
+    // ---------------- ORCID ----------------
+    function orcidValue(obj) {
+      return obj && typeof obj === "object" && "value" in obj ? obj.value : obj;
+    }
+
+    function humanise(text) {
+      const t = cleanText(text).replace(/[-_]/g, " ");
+      return t ? t.charAt(0).toUpperCase() + t.slice(1) : "";
+    }
+
+    // Prefer a DOI link, then any other identifier link, then the work's own URL.
+    function orcidLink(work) {
+      const ids = work?.["external-ids"]?.["external-id"] || [];
+      const doi = ids.find(id => cleanText(id["external-id-type"]).toLowerCase() === "doi");
+      if (doi) {
+        const doiValue = cleanText(orcidValue(doi["external-id-value"]))
+          .replace(/^https?:\/\/(dx\.)?doi\.org\//i, "");
+        const url = safeUrl(orcidValue(doi["external-id-url"])) ||
+                    (doiValue ? "https://doi.org/" + doiValue : "");
+        if (url) return { url, label: "DOI" };
+      }
+      for (const id of ids) {
+        const url = safeUrl(orcidValue(id["external-id-url"]));
+        if (url) return { url, label: cleanText(id["external-id-type"]).toUpperCase() || "Link" };
+      }
+      const own = safeUrl(orcidValue(work?.url));
+      return own ? { url: own, label: "Link" } : { url: "", label: "" };
+    }
+
+    // The works summary has no author list, so fetch full records (100 per request).
+    async function fetchOrcidAuthors(putCodes) {
+      const authors = new Map();
+      for (let i = 0; i < putCodes.length; i += 100) {
+        const chunk = putCodes.slice(i, i + 100);
+        try {
+          const data = await fetchJson(`${ORCID_API}/${ORCID_ID}/works/${chunk.join(",")}`);
+          (data.bulk || []).forEach(item => {
+            const work = item.work;
+            if (!work) return;
+            const names = (work.contributors?.contributor || [])
+              .map(c => cleanText(orcidValue(c["credit-name"])))
+              .filter(Boolean);
+            if (names.length) authors.set(String(work["put-code"]), names);
+          });
+        } catch (error) {
+          console.warn("Could not load ORCID author details:", error);
+        }
+      }
+      return authors;
+    }
+
+    async function loadFromOrcid() {
+      const data = await fetchJson(`${ORCID_API}/${ORCID_ID}/works`);
+      // Each group is one work (possibly reported by several sources); take the preferred one.
+      const works = (data.group || [])
+        .map(group => (group["work-summary"] || [])[0])
+        .filter(Boolean);
+
+      const authors = await fetchOrcidAuthors(works.map(w => w["put-code"]));
+
+      return works.map(work => {
+        const link = orcidLink(work);
+        return {
+          title: cleanText(orcidValue(work.title?.title)) || "Untitled record",
+          authors: authors.get(String(work["put-code"])) || [],
+          venue: cleanText(orcidValue(work["journal-title"])) || humanise(work.type),
+          year: Number(orcidValue(work["publication-date"]?.year)) || "Year unavailable",
+          url: link.url,
+          linkLabel: link.label
+        };
+      });
+    }
+
+    // ---------------- OpenReview ----------------
+    async function loadFromOpenReview() {
+      const params = new URLSearchParams({
+        "content.authorids": OPENREVIEW_AUTHOR_ID,
+        limit: "1000",
+        sort: "cdate:desc"
+      });
+      const data = await fetchJson(`${OPENREVIEW_API}?${params.toString()}`);
+      return fromOpenReview(data.notes || []);
+    }
+
+    // Fetch JSON with a timeout so a slow source doesn't block the fallback.
+    async function fetchJson(url) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+      try {
+        const response = await fetch(url, {
+          headers: { "Accept": "application/json" },
+          signal: controller.signal
+        });
+        if (!response.ok) throw new Error(`${url} returned HTTP ${response.status}`);
+        return await response.json();
+      } catch (error) {
+        if (error.name === "AbortError") {
+          throw new Error(`${url} did not respond within ${FETCH_TIMEOUT_MS / 1000}s`);
+        }
+        throw error;
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
     // Convert the manual list into the same shape.
     function fromManual(list) {
       return list
@@ -436,7 +543,7 @@
               : "";
             return `<li>
               <div class="pub-title">${escapeHtml(pub.title)}</div>
-              <div class="pub-meta">${authorsHtml || "Author information unavailable"} · <em>${escapeHtml(pub.venue)}</em></div>
+              <div class="pub-meta">${[authorsHtml, `<em>${escapeHtml(pub.venue)}</em>`].filter(Boolean).join(" · ")}</div>
               ${linkHtml ? `<div class="pub-links">${linkHtml}</div>` : ""}
             </li>`;
           }).join("")}
@@ -444,7 +551,7 @@
       `).join("");
     }
 
-    // Fallback: show the manual list instead of the OpenReview records.
+    // Fallback: show the manual list when no online source works.
     function showManualPublications(reason) {
       const status = document.getElementById("pub-status");
       const source = document.getElementById("pub-source");
@@ -464,45 +571,46 @@
       source.textContent = "Selected publications (maintained manually).";
     }
 
-    async function loadOpenReviewPublications() {
-      const status = document.getElementById("pub-status");
-      const params = new URLSearchParams({
-        "content.authorids": OPENREVIEW_AUTHOR_ID,
-        limit: "1000",
-        sort: "cdate:desc"
-      });
-
-      // Abort the request if OpenReview is too slow.
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
-
-      try {
-        const response = await fetch(`${OPENREVIEW_API}?${params.toString()}`, {
-          headers: { "Accept": "application/json" },
-          signal: controller.signal
-        });
-        if (!response.ok) throw new Error(`OpenReview returned HTTP ${response.status}`);
-        const data = await response.json();
-        const publications = fromOpenReview(data.notes || []);
-
-        if (!publications.length) {
-          showManualPublications("OpenReview returned no records");
-          return;
-        }
-
-        status.textContent = `${publications.length} OpenReview record(s) retrieved.`;
-        renderPublications(publications);
-      } catch (error) {
-        const reason = error.name === "AbortError"
-          ? `OpenReview did not respond within ${FETCH_TIMEOUT_MS / 1000}s`
-          : error;
-        showManualPublications(reason);
-      } finally {
-        clearTimeout(timer);
+    const PUBLICATION_SOURCES = [
+      {
+        name: "ORCID",
+        load: loadFromOrcid,
+        note: "Publication records are retrieved automatically from my ORCID profile. " +
+              "Please verify venue and publication status against the official record."
+      },
+      {
+        name: "OpenReview",
+        load: loadFromOpenReview,
+        note: "Publication records are retrieved automatically from OpenReview. " +
+              "Please verify venue and publication status against the official record."
       }
+    ];
+
+    // Try each source in order; fall back to the manual list if all fail.
+    async function loadPublications() {
+      const status = document.getElementById("pub-status");
+      const source = document.getElementById("pub-source");
+
+      for (const src of PUBLICATION_SOURCES) {
+        status.textContent = `Loading publications from ${src.name}...`;
+        try {
+          const publications = await src.load();
+          if (publications.length) {
+            status.textContent = `${publications.length} record(s) retrieved from ${src.name}.`;
+            renderPublications(publications);
+            source.textContent = src.note;
+            return;
+          }
+          console.warn(`${src.name} returned no records.`);
+        } catch (error) {
+          console.warn(`Unable to load publications from ${src.name}:`, error);
+        }
+      }
+
+      showManualPublications("All online sources failed or returned no records");
     }
 
-    loadOpenReviewPublications();
+    loadPublications();
   </script>
 </body>
 </html>
