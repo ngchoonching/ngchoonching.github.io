@@ -195,6 +195,38 @@
     .text-size button:hover:not(:disabled) { color: var(--accent); background: var(--accent-soft); }
     .text-size button:disabled { opacity: .35; cursor: default; }
     .text-size button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+    /* Watch-video button on student cards */
+    .watch-video {
+      display: inline-flex; align-items: center; gap: 6px; width: fit-content;
+      font: inherit; font-size: calc(12.5px * var(--fs)); font-weight: 600; cursor: pointer;
+      color: var(--accent); background: var(--accent-soft); border: 0; border-radius: 999px; padding: 4px 11px 4px 9px;
+    }
+    .watch-video::before {
+      content: ""; border-style: solid; border-width: 5px 0 5px 8px;
+      border-color: transparent transparent transparent currentColor;
+    }
+    .watch-video:hover { background: var(--accent); color: var(--bg); }
+    .watch-video:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    .video-dialog {
+      border: 0; padding: 0; background: var(--surface); color: var(--text);
+      border-radius: var(--radius); width: min(920px, calc(100vw - 32px)); max-height: calc(100vh - 32px);
+      margin: auto; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.35);
+    }
+    .video-dialog::backdrop { background: rgba(0,0,0,.75); }
+    .video-frame { position: relative; aspect-ratio: 16 / 9; background: #000; }
+    .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .video-dialog-bar {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px;
+    }
+    .video-dialog-title { font-weight: 600; font-size: calc(14px * var(--fs)); }
+    .video-dialog-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; font-size: calc(13px * var(--fs)); }
+    .video-close {
+      font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text);
+      background: var(--accent-soft); border: 0; border-radius: 999px; padding: 5px 12px;
+    }
+    .video-close:hover { background: var(--accent); color: var(--bg); }
   </style>
 </head>
 <body>
@@ -314,10 +346,13 @@
       into the PhD or Master's grid and edit the text.
       Keep the first <p> to one short sentence; put the full abstract inside <details>.
       Badges: role (Main supervisor / Co-supervisor), start year, status.
+      To add a video to any card, put this line just above its <div class="badges">:
+        <button type="button" class="watch-video" data-youtube="YOUTUBE LINK" data-title="Project title">Watch video</button>
+      Any YouTube link format works (youtube.com/watch?v=..., youtu.be/..., shorts/...).
       To remove a group entirely, delete its <h3> and the <div class="grid"> under it.
     -->
     <section id="students">
-      <h2>Current Postgraduate Students</h2>
+      <h2>Current Students</h2>
 
       <h3 class="student-group">PhD</h3>
       <div class="grid">
@@ -385,25 +420,37 @@
         </div>
       </div>
 
+      <h3 class="student-group">Final Year Projects</h3>
+      <div class="grid">
+        <!-- Placeholder: replace with a real project, or copy this block for more. -->
+        <div class="card student-card">
+          <h3>Project title goes here</h3>
+          <p class="student-name">Student Name</p>
+          <p>One short sentence about what the project does.</p>
+          <button type="button" class="watch-video" data-youtube="" data-title="Project title goes here">Watch video</button>
+          <div class="badges">
+            <span class="badge">Supervisor</span>
+            <span class="badge outline">FYP 2026</span>
+          </div>
+        </div>
+      </div>
+
       <p class="pub-status">
         Interested in joining? <a href="mailto:ngchoonching@raffles-university.edu.my">Get in touch</a>.
       </p>
     </section>
 
-    <!-- SKILLS -->
-    <section id="skills">
-      <h2>Tools &amp; Technologies</h2>
-      <div class="tags">
-        <span class="tag">Python</span>
-        <span class="tag">PyTorch</span>
-        <span class="tag">OpenCV</span>
-        <span class="tag">YOLO</span>
-        <span class="tag">C++</span>
-        <span class="tag">JavaScript</span>
-        <span class="tag">Docker</span>
-        <span class="tag">SQL</span>
+    <!-- Pop-up video player, opened by any "Watch video" button on the page -->
+    <dialog class="video-dialog" id="video-dialog" aria-labelledby="video-dialog-title">
+      <div class="video-frame" id="video-frame"></div>
+      <div class="video-dialog-bar">
+        <span class="video-dialog-title" id="video-dialog-title"></span>
+        <span class="video-dialog-actions">
+          <a id="video-dialog-yt" href="#" target="_blank" rel="noopener noreferrer">Open on YouTube ↗</a>
+          <button type="button" class="video-close" id="video-close">Close ✕</button>
+        </span>
       </div>
-    </section>
+    </dialog>
 
     <!-- ACHIEVEMENTS -->
     <section id="achievements">
@@ -420,17 +467,17 @@
           <span class="achievement-year">2026</span>
           <h3>Industry Collaboration - Raffles University x Pensees System Pte Ltd.</h3>
           <p>Students work on real-world AI tasks through internships and Final Year Projects.</p>
+          <p><a href="https://www.pensees.sg/" target="_blank">https://www.pensees.sg/</a></p>
           <p class="achievement-issuer">Pensees System Pte Ltd.</p>
-          <!-- Optional supporting link:
-          <p><a href="https://example.com" target="_blank" rel="noopener noreferrer">More details ↗</a></p>
-          -->
         </div>
 
         <div class="card achievement-card">
           <span class="achievement-year">2026</span>
           <h3>UNU Global Youth AI Future Innovation Competition 2026</h3>
           <p>Move My Way developed by Dhiviyan A/L Sivanathan and Dr Ng Choon Ching named a Top 15 finalist worldwide; pitching 
-            at the Grand Final in Macau. <a href="https://movemyway.me/" target="_blank">https://movemyway.me/</a></p>
+            at the Grand Final in Macau. <a href="https://movemyway.me/" target="_blank">https://movemyway.me/</a>
+          </p>
+          <button type="button" class="watch-video" data-youtube="https://www.youtube.com/watch?v=mJxm8iTgA94" data-title="Move My Way">Watch video</button>
           <p class="achievement-issuer">UNU Macau</p>
         </div>
       </div>
@@ -447,6 +494,21 @@
         <p class="pub-status">JavaScript is disabled. Please see my
           <a href="https://orcid.org/0000-0002-9657-1179">ORCID profile</a> for publications.</p>
       </noscript>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <h2>Tools &amp; Technologies</h2>
+      <div class="tags">
+        <span class="tag">Python</span>
+        <span class="tag">PyTorch</span>
+        <span class="tag">OpenCV</span>
+        <span class="tag">YOLO</span>
+        <span class="tag">C++</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">Docker</span>
+        <span class="tag">SQL</span>
+      </div>
     </section>
 
     <!-- CONTACT -->
@@ -494,6 +556,48 @@
       larger.addEventListener("click", () => { if (index < STEPS.length - 1) { index++; apply(); } });
       reset.addEventListener("click", () => { index = STEPS.indexOf(DEFAULT); apply(); });
       apply();
+    })();
+
+
+    // ---------------- Video pop-up ----------------
+    // Any <button class="watch-video" data-youtube="..."> opens the video in a pop-up.
+    // Buttons with an empty or invalid link are hidden automatically.
+    function youtubeId(url) {
+      const text = String(url || "").trim();
+      if (/^[\w-]{11}$/.test(text)) return text;
+      const match = text.match(/(?:youtu\.be\/|[?&]v=|\/(?:embed|shorts|live)\/)([\w-]{11})/);
+      return match ? match[1] : "";
+    }
+
+    (function () {
+      const dialog = document.getElementById("video-dialog");
+      const frame = document.getElementById("video-frame");
+      const titleEl = document.getElementById("video-dialog-title");
+      const ytLink = document.getElementById("video-dialog-yt");
+      const closeBtn = document.getElementById("video-close");
+      const canPopUp = typeof dialog.showModal === "function";
+
+      document.querySelectorAll(".watch-video").forEach(btn => {
+        const id = youtubeId(btn.dataset.youtube);
+        if (!id) { btn.remove(); return; }
+        const title = btn.dataset.title || btn.closest(".card")?.querySelector("h3")?.textContent || "Video";
+        btn.setAttribute("aria-label", `Watch video: ${title}`);
+
+        btn.addEventListener("click", () => {
+          const watchUrl = `https://www.youtube.com/watch?v=${id}`;
+          if (!canPopUp) { window.open(watchUrl, "_blank", "noopener"); return; }
+          frame.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0"
+            title="${escapeHtml(title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+            allowfullscreen></iframe>`;
+          titleEl.textContent = title;
+          ytLink.href = watchUrl;
+          dialog.showModal();
+        });
+      });
+
+      closeBtn.addEventListener("click", () => dialog.close());
+      dialog.addEventListener("click", e => { if (e.target === dialog) dialog.close(); });   // backdrop click
+      dialog.addEventListener("close", () => { frame.innerHTML = ""; });                     // stop playback
     })();
 
     // Publication sources, tried in order: ORCID → OpenReview → manual list below.
