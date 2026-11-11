@@ -108,6 +108,19 @@
       padding: 5px 12px; border-radius: 999px; font-size: 13.5px; font-weight: 500;
     }
 
+    /* Students */
+    .student-group { font-family: "Fraunces", serif; font-weight: 500; font-size: 21px; margin: 8px 0 12px; }
+    .student-group + .grid { margin-bottom: 28px; }
+    .student-card { display: flex; flex-direction: column; gap: 8px; }
+    .student-card h3 { line-height: 1.4; }
+    .student-name { font-size: 14.5px; font-weight: 500; color: var(--text); }
+    .student-card .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 4px; }
+    .badge {
+      font-size: 12.5px; font-weight: 500; padding: 3px 10px; border-radius: 999px;
+      background: var(--accent-soft); color: var(--accent);
+    }
+    .badge.outline { background: transparent; border: 1px solid var(--line); color: var(--muted); }
+
     /* Publications */
     .pubs { list-style: none; display: grid; gap: 18px; }
     .pubs li {
@@ -144,6 +157,7 @@
         <a href="#about">About</a>
         <a href="#research">Research</a>
         <a href="#teaching">Teaching</a>
+        <a href="#students">Students</a>
         <a href="#publications">Publications</a>
         <a href="#contact">Contact</a>
       </div>
@@ -250,6 +264,79 @@
             pattern discovery, and intelligent decision support.</p>
         </div>
       </div>
+    </section>
+
+    <!-- STUDENTS -->
+    <!--
+      To add a student: copy one <div class="card student-card">...</div> block
+      into the PhD or Master's grid and edit the text.
+      Badges: role (Main supervisor / Co-supervisor), start year, status.
+      To remove a group entirely, delete its <h3> and the <div class="grid"> under it.
+    -->
+    <section id="students">
+      <h2>Current Postgraduate Students</h2>
+
+      <h3 class="student-group">PhD</h3>
+      <div class="grid">
+        <div class="card student-card">
+          <h3>AI-Based Counselling Skills Simulator and Coach</h3>
+          <p class="student-name">Jayson Lew Chi Kheong</p>
+          <p>This research proposes a culturally grounded AI-powered counselling simulation 
+            and assessment framework to enhance practical counsellor education in Malaysia 
+            through realistic client interactions that incorporate local languages, cultural values, 
+            emotional complexity and diverse client behaviours. The framework integrates automated 
+            counselling micro-skill recognition, personalised formative feedback and human 
+            supervisor oversight, with its effectiveness evaluated through expert assessments 
+            and comparisons of students' counselling competencies, self-efficacy and transfer 
+            of skills to real-world practice.
+          </p>
+          <div class="badges">
+            <span class="badge">Co supervisor</span>
+            <span class="badge outline">Since 2026</span>
+          </div>
+        </div>
+        <div class="card student-card">
+          <h3>Anomaly Detection for Industry Use Case</h3>
+          <p class="student-name">Yian Xing Jian</p>
+          <p>This research proposes an AI-powered anomaly detection framework for industrial 
+            applications, leveraging machine learning and deep learning techniques to identify 
+            unusual patterns, defects and abnormal operating conditions from industrial sensor 
+            data, images or video streams. The framework aims to improve operational efficiency, 
+            predictive maintenance and quality control by providing accurate, real-time anomaly 
+            detection, early warning capabilities and interpretable insights to support industrial 
+            decision-making.
+          </p>
+          <div class="badges">
+            <span class="badge">Co-supervisor</span>
+            <span class="badge outline">Since 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="student-group">Master's</h3>
+      <div class="grid">
+        <div class="card student-card">
+          <h3>Face Quality Assessment using Self Supervised Learning</h3>
+          <p class="student-name">Mohamad Hatim Bin Mohd Shahfri</p>
+          <p>This research proposes a self-supervised learning framework for Face Image 
+            Quality Assessment (FIQA), aiming to learn meaningful facial image quality 
+            representations without relying heavily on expensive human-annotated quality 
+            labels. The framework seeks to improve the accuracy, generalisation and 
+            robustness of face quality prediction across different imaging conditions 
+            and face recognition systems, particularly in resource-constrained and 
+            real-world deployment scenarios.
+          </p>
+          <div class="badges">
+            <span class="badge">Main supervisor</span>
+            <span class="badge outline">Since 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="pub-status">
+        Interested in joining? Prospective Master's and PhD students are welcome to
+        <a href="mailto:ngchoonching@raffles-university.edu.my">get in touch</a>.
+      </p>
     </section>
 
     <!-- SKILLS -->
