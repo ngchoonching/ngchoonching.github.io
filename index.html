@@ -168,6 +168,8 @@
     .pub-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 3px; font-size: calc(13px * var(--fs)); }
     .pub-author-me { font-weight: 700; color: var(--text); text-decoration: underline; text-decoration-color: var(--accent); }
     .pub-status { color: var(--muted); font-size: calc(13px * var(--fs)); }
+    .pub-toggle { margin-top: 18px; font-family: inherit; cursor: pointer; }
+    .pub-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     .contact-lines { display: grid; gap: 4px; font-size: calc(14px * var(--fs)); }
 
     footer {
@@ -296,7 +298,9 @@
       <p>
         Senior lecturer at Raffles University and head of the Data and AI Center of Excellence (DAICoE).
         I teach programming, neural networks and computer vision, and supervise PhD and Master's research
-        in visual inspection, face sensing, self-supervised learning and AI for education.
+        in visual inspection, face sensing, self-supervised learning and AI for education. My research  
+        interests focus on computer vision and machine learning, with an emphasis on developing robust and  
+        practical sensing solutions for real-world applications.
       </p>
     </section>
 
@@ -474,6 +478,7 @@
       <h2>Publications</h2>
       <p id="pub-status" class="pub-status" aria-live="polite">Loading publications...</p>
       <div id="pub-list"></div>
+      <button type="button" id="pub-toggle" class="btn pub-toggle" aria-controls="pub-list" aria-expanded="false" hidden></button>
       <p id="pub-source" class="pub-status" style="margin-top:16px">
       </p>
       <noscript>
@@ -837,16 +842,36 @@
         }));
     }
 
-    function renderPublications(publications) {
-      const container = document.getElementById("pub-list");
+    // How many of the most recent publications to show before "Show all" is clicked.
+    const PUBS_INITIALLY_SHOWN = 5;
+    let allPublications = [];
+    let showingAll = false;
 
-      publications.sort((a, b) => {
+    function renderPublications(publications) {
+      allPublications = publications.slice().sort((a, b) => {
         const ay = Number(a.year) || 0, by = Number(b.year) || 0;
         return by - ay || a.title.localeCompare(b.title);
       });
+      showingAll = false;
+      drawPublications();
+    }
+
+    function drawPublications() {
+      const container = document.getElementById("pub-list");
+      const toggle = document.getElementById("pub-toggle");
+      const total = allPublications.length;
+      const visible = showingAll ? allPublications : allPublications.slice(0, PUBS_INITIALLY_SHOWN);
+
+      if (total > PUBS_INITIALLY_SHOWN) {
+        toggle.hidden = false;
+        toggle.textContent = showingAll ? "Show fewer" : `Show all ${total} publications`;
+        toggle.setAttribute("aria-expanded", String(showingAll));
+      } else {
+        toggle.hidden = true;
+      }
 
       const grouped = new Map();
-      publications.forEach(pub => {
+      visible.forEach(pub => {
         const year = String(pub.year);
         if (!grouped.has(year)) grouped.set(year, []);
         grouped.get(year).push(pub);
@@ -873,6 +898,13 @@
         </ul>
       `).join("");
     }
+
+    document.getElementById("pub-toggle").addEventListener("click", () => {
+      showingAll = !showingAll;
+      drawPublications();
+      // When collapsing, bring the reader back to the top of the section.
+      if (!showingAll) document.getElementById("publications").scrollIntoView({ block: "start" });
+    });
 
     // Fallback: show the manual list when no online source works.
     function showManualPublications(reason) {
